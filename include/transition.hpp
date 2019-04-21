@@ -8,7 +8,7 @@ namespace trn
 
 float ratio(float t)
 {
-	return 1.0f / (1.0f + std::expf(-(t - 4.0f)));
+	return 1.0f / (1.0f + std::expf(-(8.0f*t - 4.0f)));
 }
 
 template<typename T>
@@ -74,7 +74,7 @@ private:
 	{
 		ChronoPoint now(std::chrono::steady_clock::now());
 		double t(static_cast<double>(std::chrono::duration_cast<std::chrono::milliseconds>(now - m_start_time).count()));
-		m_current_value = m_start_value + m_delta * ratio(t * 0.01f * m_speed);
+		m_current_value = m_start_value + m_delta * ratio(t * 0.001f * m_speed);
 	}
 };
 
