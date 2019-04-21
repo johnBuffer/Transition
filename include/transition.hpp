@@ -8,7 +8,7 @@ namespace trn
 
 float ratio(float t)
 {
-	return 1.0f / (1.0f + std::expf(-(8.0f*t - 4.0f)));
+	return 1.0f / (1.0f + std::expf(-(10.0f*t - 5.0f)));
 }
 
 template<typename T>
