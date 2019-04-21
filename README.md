@@ -31,7 +31,8 @@ When affecting a new value to the transition object, it justs update the target 
 
 ## Ajust transition time
 By default the transition takes 1sec to complete (taking into account the fact that sigmoid never strictly reaches 1).
-The speed allows you to divide this time by a specified factor.
+
+The _setSpeed_ method allows you to speed the transition up by a specified factor.
 ```cpp
 // Now the transition takes 0.5s
 zoom.setSpeed(2.0f);
