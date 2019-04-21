@@ -44,3 +44,8 @@ zoom.setSpeed(2.0f);
  - The interpolation function is limited to a _sigmoid_
  
  ![sigm](https://wiki.analytica.com/images/b/be/SigmoidGraph.png)
+ 
+ # Future work
+ 
+  - [ ] Add support for custom interpolation functions
+  - [ ] Add support for manual update
