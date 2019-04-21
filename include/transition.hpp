@@ -44,7 +44,7 @@ public:
 
 	operator const T&()
 	{
-		silentUpdate();
+		autoUpdate();
 		return m_current_value;
 	}
 
@@ -70,7 +70,7 @@ private:
 	ChronoPoint m_start_time;
 	float m_speed;
 
-	void silentUpdate()
+	void autoUpdate()
 	{
 		ChronoPoint now(std::chrono::steady_clock::now());
 		double t(static_cast<double>(std::chrono::duration_cast<std::chrono::milliseconds>(now - m_start_time).count()));
