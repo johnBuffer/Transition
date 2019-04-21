@@ -1,57 +1,84 @@
 #pragma once
+#include <chrono>
+#include <cmath>
 
 namespace trn
 {
+
+
+float ratio(float t)
+{
+	return 1.0f / (1.0f + std::expf(-(t - 4.0f)));
+}
 
 template<typename T>
 class Transition
 {
 public:
+	using ChronoPoint = std::chrono::steady_clock::time_point;
+
 	Transition() :
+		m_start_value(),
 		m_current_value(),
 		m_target_value(),
+		m_start_time(std::chrono::steady_clock::now()),
 		m_speed(0.0f)
 	{}
 
-	Transition(const T& value, float speed=1.0f) :
+	Transition(const T& value, float speed = 1.0f) :
+		m_start_value(value),
 		m_current_value(value),
 		m_target_value(value),
+		m_start_time(std::chrono::steady_clock::now()),
 		m_speed(speed)
 	{}
 
 	template<typename... Args>
 	explicit Transition(Args&&... args) :
-		m_current_value(std::forward<Args>(args)...),
-		m_target_value(m_current_value),
+		m_start_value(std::forward<Args>(args)...),
+		m_current_value(m_start_value),
+		m_target_value(m_start_value),
+		m_start_time(std::chrono::steady_clock::now()),
 		m_speed(1.0f)
 	{}
 
-	operator const T&() const
+	operator const T&()
 	{
+		silentUpdate();
 		return m_current_value;
-	}
-
-	void update(float dt = 0.016f)
-	{
-		m_current_value += (m_target_value - m_current_value) * (m_speed * dt);
 	}
 
 	void operator=(const T& value)
 	{
+		m_start_value = m_current_value;
+		m_start_time = std::chrono::steady_clock::now();
 		m_target_value = value;
+		m_delta = m_target_value - m_start_value;
 	}
 
-	void speed(float s)
+	void setSpeed(float s)
 	{
 		m_speed = s;
 	}
 
 private:
-	T m_current_value;
+	T m_start_value;
 	T m_target_value;
+	T m_delta;
+	T m_current_value;
 
+	ChronoPoint m_start_time;
 	float m_speed;
+
+	void silentUpdate()
+	{
+		ChronoPoint now(std::chrono::steady_clock::now());
+		double t(static_cast<double>(std::chrono::duration_cast<std::chrono::milliseconds>(now - m_start_time).count()));
+		m_current_value = m_start_value + m_delta * ratio(t * 0.01f * m_speed);
+	}
 };
+
+
 
 }
 
