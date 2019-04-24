@@ -19,7 +19,7 @@ public:
 		, m_start_time(std::chrono::steady_clock::now())
 		, m_speed(0.0f)
 	{
-		restart();
+		updateDelta();
 	}
 
 	Transition(const T& value, float speed = 1.0f)
@@ -30,7 +30,7 @@ public:
 		, m_start_time(std::chrono::steady_clock::now())
 		, m_speed(speed)
 	{
-		restart();
+		updateDelta();
 	}
 
 	template<typename... Args>
@@ -40,9 +40,11 @@ public:
 		m_target_value(m_start_value),
 		m_start_time(std::chrono::steady_clock::now()),
 		m_speed(1.0f)
-	{}
+	{
+		updateDelta();
+	}
 
-	operator const T() const
+	operator const T&() const
 	{
 		autoUpdate();
 		return m_current_value;
@@ -92,7 +94,10 @@ private:
 	{
 		ChronoPoint now(std::chrono::steady_clock::now());
 		double t(static_cast<double>(std::chrono::duration_cast<std::chrono::milliseconds>(now - m_start_time).count()));
-		m_current_value = m_start_value + m_delta * ratio(t * 0.001f * m_speed);
+		if (t > 1.0f)
+		{
+			m_current_value = m_start_value + m_delta * ratio(t * 0.001f * m_speed);
+		}
 	}
 
 	static float ratio(float t)
