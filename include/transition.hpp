@@ -5,12 +5,6 @@
 namespace trn
 {
 
-
-float ratio(float t)
-{
-	return 1.0f / (1.0f + std::expf(-(10.0f*t - 5.0f)));
-}
-
 template<typename T>
 class Transition
 {
@@ -56,6 +50,12 @@ public:
 		m_delta = m_target_value - m_start_value;
 	}
 
+	template<typename U>
+	void operator+=(const U& value)
+	{
+		this->operator=(m_target_value + value);
+	}
+
 	void setSpeed(float s)
 	{
 		m_speed = s;
@@ -75,6 +75,11 @@ private:
 		ChronoPoint now(std::chrono::steady_clock::now());
 		double t(static_cast<double>(std::chrono::duration_cast<std::chrono::milliseconds>(now - m_start_time).count()));
 		m_current_value = m_start_value + m_delta * ratio(t * 0.001f * m_speed);
+	}
+
+	float ratio(float t)
+	{
+		return 1.0f / (1.0f + std::expf(-(10.0f*t - 5.0f)));
 	}
 };
 
