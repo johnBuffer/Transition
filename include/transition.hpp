@@ -76,11 +76,19 @@ public:
 	{
 		m_current_value = value;
 		m_target_value = value;
+		updateDelta();
 	}
 
 	void setSpeed(float s)
 	{
 		m_speed = s;
+	}
+
+	// Instantly moves the current_value to a new one
+	void setCurrentValue(const T& new_val)
+	{
+		m_current_value = new_val;
+		updateDelta();
 	}
 
 private:
