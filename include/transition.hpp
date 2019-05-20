@@ -42,6 +42,7 @@ public:
 		, m_last_access(std::chrono::steady_clock::now())
 		, m_start_time(std::chrono::steady_clock::now())
 		, m_speed(1.0f)
+		, m_delta(0.0f)
 	{
 		updateDelta();
 	}
@@ -70,6 +71,12 @@ public:
 	{
 		m_target_value -= value;
 		restart();
+	}
+
+	template<typename U>
+	U as() const
+	{
+		return static_cast<U>(m_current_value);
 	}
 
 	void setValueInstant(const T& value)
