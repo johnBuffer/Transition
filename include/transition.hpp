@@ -42,7 +42,7 @@ public:
 		, m_last_access(std::chrono::steady_clock::now())
 		, m_start_time(std::chrono::steady_clock::now())
 		, m_speed(1.0f)
-		, m_delta(0.0f)
+		, m_delta()
 	{
 		updateDelta();
 	}
@@ -116,8 +116,8 @@ private:
 		if (dt > 2)
 		{
 			m_last_access = now;
-			float t(std::chrono::duration_cast<std::chrono::milliseconds>(now - m_start_time).count());
-			if (t > 1.0f)
+			const uint32_t t(static_cast<uint32_t>(std::chrono::duration_cast<std::chrono::milliseconds>(now - m_start_time).count()));
+			if (t > 1)
 			{
 				m_current_value = m_start_value + m_delta * ratio(t * 0.001f * m_speed);
 			}
