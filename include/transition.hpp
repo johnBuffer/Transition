@@ -97,6 +97,11 @@ public:
 		m_current_value = new_val;
 		updateDelta();
 	}
+    
+    const T& getTarget() const
+    {
+        return m_target_value;
+    }
 
 private:
 	T m_start_value;
