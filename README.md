@@ -1,5 +1,7 @@
 # Transition
 
+Transition allows to seamlessly animate variables assignements. 
+
 # Usage
 
 ### 1. Include header
@@ -27,7 +29,7 @@ float twoZoom = twoTimes(zoom);
 ```cpp
 zoom = 30.0f;
 ```
-When affecting a new value to the transition object, it justs update the target value.
+When affecting a new value to the transition object, it justs update the target value. When accessing `zoom`, its value will automatically transition from its current value to `30.0f` over the next second.
 
 ## Ajust transition time
 By default the transition takes 1sec to complete (taking into account the fact that sigmoid never strictly reaches 1).
